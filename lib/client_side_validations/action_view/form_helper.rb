@@ -25,8 +25,11 @@ module ClientSideValidations::ActionView::Helpers
       form   = super(record, *(args << options), &block)
       build_bound_validators(options)
       options[:id] = html_id if html_id
-      script = client_side_form_settings(object, options)
-
+      begin
+        script = client_side_form_settings(object, options)
+      rescue Exception =>ex
+        Rails.logger.debug("\n\n\n\ Shit is fucked: #{ex.message} ")
+      end
       # Because of the load order requirement above this sub is necessary
       # Would be nice to not do this
       script = insert_validators_into_script(script)
