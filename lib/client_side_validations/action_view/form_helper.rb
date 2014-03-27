@@ -28,7 +28,9 @@ module ClientSideValidations::ActionView::Helpers
       begin
         script = client_side_form_settings(object, options)
       rescue Exception =>ex
-        Rails.logger.debug("\n\n\n\ Shit is fucked: #{ex.message} ")
+        Rails.logger.debug("\n\n\n\  #{ex.message}")
+        Rails.logger.debug("\n\  #{ex.backtrace}")
+        Rails.logger.debug("\n\  #{self}")
       end
       # Because of the load order requirement above this sub is necessary
       # Would be nice to not do this
