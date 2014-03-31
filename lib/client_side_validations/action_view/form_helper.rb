@@ -114,6 +114,8 @@ module ClientSideValidations::ActionView::Helpers
       Rails.logger.debug("Inside cleint side form settings (form helper)")
       if options[:validate]
         builder = options[:parent_builder]
+        Rails.logger.debug("builder: #{builder}")
+        Rails.logger.debug("builder: #{p options}")
 
         if options[:id]
           var_name = options[:id]
@@ -144,7 +146,7 @@ module ClientSideValidations::ActionView::Helpers
 
 
         content_tag(:script) do
-          "//<![CDATA[\nif(window.ClientSideValidations===undefined)window.ClientSideValidations={};window.ClientSideValidations.disabled_validators=#{ClientSideValidations::Config.disabled_validators.to_json};window.ClientSideValidations.number_format=#{number_format.to_json};if(window.ClientSideValidations.patterns===undefined)window.ClientSideValidations.patterns = {};window.ClientSideValidations.patterns.numericality=#{patterns[:numericality]};#{"if(window.ClientSideValidations.remote_validators_prefix===undefined)window.ClientSideValidations.remote_validators_prefix='#{(ClientSideValidations::Config.root_path).sub(/\/+\Z/,'')}';" if ClientSideValidations::Config.root_path.present? }if(window.ClientSideValidations.forms===undefined)window.ClientSideValidations.forms={};window.ClientSideValidations.forms['#{var_name}'] = #{ builder.present? ? builder.client_side_form_settings(options, self).merge(:validators => 'validator_hash').to_json : validator_hash.to_json};\n//]]>".html_safe
+          "//<![CDATA[\nif(window.ClientSideValidations===undefined)window.ClientSideValidations={};window.ClientSideValidations.disabled_validators=#{ClientSideValidations::Config.disabled_validators.to_json};window.ClientSideValidations.number_format=#{number_format.to_json};if(window.ClientSideValidations.patterns===undefined)window.ClientSideValidations.patterns = {};window.ClientSideValidations.patterns.numericality=#{patterns[:numericality]};#{"if(window.ClientSideValidations.remote_validators_prefix===undefined)window.ClientSideValidations.remote_validators_prefix='#{(ClientSideValidations::Config.root_path).sub(/\/+\Z/,'')}';" if ClientSideValidations::Config.root_path.present? }if(window.ClientSideValidations.forms===undefined)window.ClientSideValidations.forms={};window.ClientSideValidations.forms['#{var_name}'] = #{ builder.present? ? builder.client_side_form_settings(options, self).merge(:validators => 'validator_hash').to_json : '{}'};\n//]]>".html_safe
         end
         nil
       end
