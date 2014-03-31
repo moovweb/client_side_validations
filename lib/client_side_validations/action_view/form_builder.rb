@@ -25,6 +25,7 @@ module ClientSideValidations::ActionView::Helpers
         alias_method_chain :time_zone_select,          :client_side_validations
 
         def client_side_form_settings(options, form_helper)
+          Rails.logger.debug("Inside client side form settings (form builder)")
           {
             :type => self.class.to_s,
             :input_tag => form_helper.class.field_error_proc.call(%{<span id="input_tag" />},  Struct.new(:error_message, :tag_id).new([], "")),

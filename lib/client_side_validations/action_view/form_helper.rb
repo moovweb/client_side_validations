@@ -26,13 +26,13 @@ module ClientSideValidations::ActionView::Helpers
       build_bound_validators(options)
       options[:id] = html_id if html_id
       begin
-        Rails.logger.debug("\n\n\n\  #{object}")
-        Rails.logger.debug("\n\n\n\  #{options}")
+        Rails.logger.debug("\n\ The object  #{object}")
+        Rails.logger.debug("\n\ The Options #{options}")
         script = client_side_form_settings(object, options)
       rescue Exception =>ex
-        Rails.logger.debug("\n\n\n\  #{ex.message}")
-        Rails.logger.debug("\n\  #{ex.backtrace}")
-        Rails.logger.debug("\n\  #{record}")
+        Rails.logger.debug("\n\ Error:  #{ex.message}")
+        Rails.logger.debug("\n\ Backtraces:  #{ex.backtrace}")
+        Rails.logger.debug("\n\ The record #{record}")
       end
       # Because of the load order requirement above this sub is necessary
       # Would be nice to not do this
@@ -111,6 +111,7 @@ module ClientSideValidations::ActionView::Helpers
     end
 
     def client_side_form_settings(object, options)
+      Rails.logger.debug("Inside cleint side form settings (form helper)")
       if options[:validate]
         builder = options[:parent_builder]
 
